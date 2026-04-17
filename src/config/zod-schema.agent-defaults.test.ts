@@ -107,4 +107,15 @@ describe("agent defaults schema", () => {
     expect(() => AgentDefaultsSchema.parse({ heartbeat: { timeoutSeconds: 0 } })).toThrow();
     expect(() => AgentEntrySchema.parse({ id: "ops", heartbeat: { timeoutSeconds: 0 } })).toThrow();
   });
+
+  it("accepts per-agent reasoningDefault and verboseDefault", () => {
+    const agent = AgentEntrySchema.parse({
+      id: "ops",
+      reasoningDefault: "stream",
+      verboseDefault: "full",
+    });
+
+    expect(agent.reasoningDefault).toBe("stream");
+    expect(agent.verboseDefault).toBe("full");
+  });
 });

@@ -64,6 +64,7 @@ export const FIELD_LABELS: Record<string, string> = {
   "agents.list[].runtime.acp.cwd": "Agent ACP Working Directory",
   "agents.list[].thinkingDefault": "Agent Thinking Default",
   "agents.list[].reasoningDefault": "Agent Reasoning Default",
+  "agents.list[].verboseDefault": "Agent Verbose Default",
   "agents.list[].fastModeDefault": "Agent Fast Mode Default",
   agents: "Agents",
   "agents.defaults": "Agent Defaults",

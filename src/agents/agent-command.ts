@@ -37,6 +37,7 @@ import { normalizeOptionalString } from "../shared/string-coerce.js";
 import { sanitizeForLog } from "../terminal/ansi.js";
 import { resolveMessageChannel } from "../utils/message-channel.js";
 import {
+  resolveAgentConfig,
   listAgentIds,
   resolveAgentDir,
   resolveEffectiveModelFallbacks,
@@ -371,6 +372,7 @@ async function prepareAgentCommandExecution(
       sessionKey: sessionKey ?? opts.sessionKey?.trim(),
       config: cfg,
     });
+  const scopedAgentCfg = resolveAgentConfig(cfg, sessionAgentId);
   const outboundSession = buildOutboundSessionContext({
     cfg,
     agentId: sessionAgentId,
@@ -585,7 +587,10 @@ async function agentCommandInternal(
 
     let resolvedThinkLevel = thinkOnce ?? thinkOverride ?? persistedThinking;
     const resolvedVerboseLevel =
-      verboseOverride ?? persistedVerbose ?? (agentCfg?.verboseDefault as VerboseLevel | undefined);
+      verboseOverride ??
+      persistedVerbose ??
+      (scopedAgentCfg?.verboseDefault as VerboseLevel | undefined) ??
+      (agentCfg?.verboseDefault as VerboseLevel | undefined);
 
     if (sessionKey) {
       registerAgentRunContext(runId, {
